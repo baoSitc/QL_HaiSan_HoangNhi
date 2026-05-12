@@ -3,10 +3,206 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:QL_HaiSan_HoangNhi.ViewModels"
+             xmlns:local="clr-namespace:QL_HaiSan_HoangNhi.Views"
+              xmlns:vm="clr-namespace:QL_HaiSan_HoangNhi.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <UserControl.DataContext>
+        <vm:KhachHangViewModel/>
+    </UserControl.DataContext>
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Tìm kiếm:"
+                    VerticalAlignment="Center"
+                    Margin="5"/>
+
+            <TextBox Width="250"
+      Height="35"
+      Margin="5"
+      Text="{Binding TuKhoa,
+             UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+      
+        <!--forms-->
+        <Border Grid.Row="1"
+        BorderBrush="#DADADA"
+        BorderThickness="1"
+        CornerRadius="5"
+        Padding="15"
+        Margin="0,0,0,10">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="250"/>
+
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="60"/>
+
+                </Grid.RowDefinitions>
+
+                <!-- Mã KH -->
+                <TextBlock Text="Mã KH:"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="0"
+                 Grid.Column="1"
+                 Margin="5"
+                         IsReadOnly="True"
+                 Text="{Binding SelectedKhachHang.Makh,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Tên KH -->
+                <TextBlock Text="Tên khách hàng:"
+                   Grid.Row="0"
+                   Grid.Column="2"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="0"
+                 Grid.Column="3"
+                 Margin="5"
+                 Text="{Binding SelectedKhachHang.Tenkh,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- SĐT -->
+                <TextBlock Text="Số điện thoại:"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="1"
+                 Grid.Column="1"
+                 Margin="5"
+                 Text="{Binding SelectedKhachHang.Sdt,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Địa chỉ -->
+                <TextBlock Text="Địa chỉ:"
+                   Grid.Row="1"
+                   Grid.Column="2"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="1"
+                 Grid.Column="3"
+                 Margin="5"
+                 Text="{Binding SelectedKhachHang.Diachi,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Zalo -->
+                <TextBlock Text="Zalo:"
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="2"
+                 Grid.Column="1"
+                 Margin="5"
+                 Text="{Binding SelectedKhachHang.Zalo,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- Ghi chú -->
+                <TextBlock Text="Ghi chú:"
+                   Grid.Row="2"
+                   Grid.Column="2"
+                   VerticalAlignment="Center"
+                   Margin="5"/>
+
+                <TextBox Grid.Row="2"
+                 Grid.Column="3"
+                 Margin="5"
+                 Text="{Binding SelectedKhachHang.Ghichu,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- BUTTON -->
+                <StackPanel Grid.Row="3"
+                    Grid.ColumnSpan="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="5">
+
+                    <Button Content="Thêm Khách Hàng"
+                    Width="150"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding AddKhachHangCommand}"/>
+
+                    <Button Content="Sửa Khách Hàng"
+                    Width="150"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding UpdateKhachHangCommand}"/>
+
+                    <Button Content="Xóa"
+                    Width="100"
+                    Height="35"
+                    Margin="5"
+                    Command="{Binding DeleteKhachHangCommand}"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+
+        <DataGrid Grid.Row="2"
+               ItemsSource="{Binding DanhSachKhachHang}"
+               SelectedItem="{Binding SelectedKhachHang}"
+               AutoGenerateColumns="False"
+               Margin="5">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Mã khách hàng"
+                                 Binding="{Binding Makh}"/>
+
+                <DataGridTextColumn Header="Tên khách hàng"
+                  Binding="{Binding Tenkh}"/>
+
+                <DataGridTextColumn Header="Số điện thoại"
+                                 Binding="{Binding Sdt}"/>
+
+                <DataGridTextColumn Header="Địa chỉ"
+                                 Binding="{Binding Diachi}"/>
+
+                <DataGridTextColumn Header="Zalo"
+                                 Binding="{Binding Zalo}"/>
+                <DataGridTextColumn Header="Ghi chú"
+                  Binding="{Binding Ghichu}"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
     </Grid>
 </UserControl>
