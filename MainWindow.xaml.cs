@@ -97,5 +97,12 @@ namespace QL_HaiSan_HoangNhi
          "PackageVariantClosed",
          new KhachHangView());
         }
+        private void BtnBanHang_Click(object sender, RoutedEventArgs e)
+        {
+            OpenTab(
+         "Bán hàng",
+         "CashRegister",
+         new BanHangView());
+        }
     }
 }

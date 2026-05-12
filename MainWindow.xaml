@@ -25,8 +25,8 @@
 
             <Button Content="Hàng hóa" Click="BtnHangHoa_Click" Margin="5"/>
             <Button Content="Khách hàng" Click="BtnKhachHang_Click" Margin="5"/>
-            <!--<Button Content="Hợp đồng" Click="BtnHopDong_Click" Margin="5"/>
-            <Button Content="Người phụ thuộc" Click="BtnNguoiPT_Click" Margin="5"/>
+            <Button Content="Bán hàng" Click="BtnBanHang_Click" Margin="5"/>
+            <!-- <Button Content="Người phụ thuộc" Click="BtnNguoiPT_Click" Margin="5"/>
             <Button Content="Bảng lương" Click="BtnLuong_Click" Margin="5"/>-->
         </StackPanel>
 
