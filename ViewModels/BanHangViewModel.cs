@@ -9,25 +9,103 @@ using System.Windows.Input;
 
 namespace QL_HaiSan_HoangNhi.ViewModels
 {
+
     public partial class BanHangViewModel:BaseViewModel,INotifyPropertyChanged
     {
+        //tìm kiếm hàng hóa
+        private string _tuKhoa;
+
+        public string TuKhoa
+        {
+            get => _tuKhoa;
+            set
+            {
+                _tuKhoa = value;
+
+                OnPropertyChanged(nameof(TuKhoa));
+
+                TimKiem();
+            }
+        }
+        public void TimKiem()
+        {
+            if (string.IsNullOrWhiteSpace(TuKhoa))
+            {
+              LoadHangHoa();
+                OnPropertyChanged(nameof(DanhSachHangHoa));
+                return;
+            }
+
+            var data = App.Db.Hanghoas
+                .Where(x =>
+                    x.Tenhh.Contains(TuKhoa))
+                .ToList();
+
+            DanhSachHangHoa =
+                new ObservableCollection<Hanghoa>(data);
+            OnPropertyChanged(nameof(DanhSachHangHoa));
+        }
         public ObservableCollection<Hanghoa> DanhSachHangHoa
         {
             get;
             set;
         }
         private Hanghoa _selectedHangHoa;
-
         public Hanghoa SelectedHangHoa
         {
             get => _selectedHangHoa;
             set
             {
                 _selectedHangHoa = value;
+                OnPropertyChanged();
+            }
+        }
+        public Loaihang _selectedLoaiHang;
+
+        public ObservableCollection<Loaihang>DanhSachLoaiHang   
+        {
+            get;
+            set;
+        }
+     public Loaihang SelectedLoaiHang
+        {
+            get => _selectedLoaiHang;
+            set
+            {
+                _selectedLoaiHang = value;
+
+                // Load hàng hóa based on selected loại hàng
+                LoadHangHoa();
 
                 OnPropertyChanged();
             }
         }
+        public void LoadHangHoa()
+        {
+            // TẤT CẢ
+            if (SelectedLoaiHang == null
+         || SelectedLoaiHang.Id == 0)
+            {
+                DanhSachHangHoa =
+                    new ObservableCollection<Hanghoa>
+                (
+                    App.Db.Hanghoas.OrderBy(x => x.Tenhh).ToList()
+                );
+
+                return;
+            }
+
+            DanhSachHangHoa =
+                new ObservableCollection<Hanghoa>
+            (
+                App.Db.Hanghoas
+                    .Where(x =>
+                        x.LoaihangId == SelectedLoaiHang.Id)
+                    .OrderBy(x => x.Tenhh)
+                    .ToList()
+            );
+        }
+
         private decimal _soLuong = 1;
 
         public decimal SoLuong
@@ -144,15 +222,33 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         public BanHangViewModel()
         {
             LoadKhachHang();
+            //load loại hàng
+
+            LoadLoaiHang();
             //load hàng hóa
-            DanhSachHangHoa =
-               new ObservableCollection<Hanghoa>
-           (
-               App.Db.Hanghoas.ToList()
-           );
+           // LoadHangHoa();
+            
+
             ThemGioHangCommand = new RelayCommand(ThemGioHang);
             ChonHangCommand =   new RelayCommand<Hanghoa>(ChonHang);
         }
+        public void LoadLoaiHang()
+        {
+            var data = App.Db.Loaihangs.ToList();
+
+            // thêm dòng Tất cả
+            data.Insert(0, new Loaihang()
+            {
+                Id = 0,
+                Tenloai = "Tất cả"
+            });
+
+            DanhSachLoaiHang =
+                new ObservableCollection<Loaihang>(data);
+
+            SelectedLoaiHang = DanhSachLoaiHang.FirstOrDefault();
+        }
+
         //Command
         public ICommand ThemGioHangCommand
         {
@@ -197,9 +293,12 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         public void TinhTongTien()
         {
             TongTien = GioHang.Sum(x => x.ThanhTien);
+            OnPropertyChanged(nameof(GioHang));
         }
         public void ChonHang(Hanghoa hh)
         {
+            if (hh == null)
+                return;
             var item = GioHang
                 .FirstOrDefault(x => x.HangHoaId == hh.Id);
 
@@ -212,15 +311,25 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 return;
             }
 
-            GioHang.Add(new HoaDonItem()
+            HoaDonItem newItem = new HoaDonItem()
             {
                 HangHoaId = hh.Id,
                 TenHang = hh.Tenhh,
                 DonGia = hh.Giaban ?? 0,
                 SoLuong = 1,
                 Dvt = hh.Dvt
-            });
+            };
 
+            // QUAN TRỌNG
+            newItem.PropertyChanged += Item_PropertyChanged;
+
+            GioHang.Add(newItem);
+
+            TinhTongTien();
+        }
+
+        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
             TinhTongTien();
         }
     }

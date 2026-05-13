@@ -124,6 +124,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             win.ShowDialog();
 
             LoadLoaiHang();
+            OnPropertyChanged(nameof(DanhSachLoaiHang));
         }
         [RelayCommand]
         public void Sua()
