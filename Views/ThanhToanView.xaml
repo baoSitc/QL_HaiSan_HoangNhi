@@ -75,6 +75,44 @@
                           AutoGenerateColumns="False"
                           IsReadOnly="True"
                           SelectionMode="Single">
+                    <DataGrid.RowStyle>
+
+                        <Style TargetType="DataGridRow">
+
+                            <Style.Triggers>
+
+                                <!-- ================================= -->
+                                <!-- CÒN NỢ -->
+                                <!-- ================================= -->
+
+                                <DataTrigger Binding="{Binding TrangThaiThanhToan}"
+                         Value="CONNO">
+
+                                    <Setter Property="Background"
+                        Value="#FFCDD2"/>
+
+                                    <Setter Property="Foreground"
+                        Value="DarkRed"/>
+
+                                    <Setter Property="FontWeight"
+                        Value="Bold"/>
+
+                                </DataTrigger>
+                                <!-- CHƯA THANH TOÁN -->
+
+                                <DataTrigger Binding="{Binding TrangThaiThanhToan}"
+                             Value="CHUATHANHTOAN">
+
+                                    <Setter Property="Background"
+                            Value="#FFF9C4"/>
+
+                                </DataTrigger>
+
+                            </Style.Triggers>
+
+                        </Style>
+
+                    </DataGrid.RowStyle>
 
                     <DataGrid.Columns>
 
@@ -220,7 +258,7 @@
                     <TextBox Grid.Row="0"
                  Grid.Column="3"
                  Margin="5"
-                 Text="{Binding TienKhachDua, StringFormat={}{0:N0},
+                 Text="{Binding TienKhachDua, StringFormat={}{0:N0},Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- ====================================== -->
@@ -271,7 +309,7 @@ Margin="5"
                     <TextBox Grid.Row="2"
                  Grid.Column="1"
                  Margin="5"
-                 Text="{Binding PhiShip,
+                 Text="{Binding PhiShip,StringFormat={}{0:N0},
                                 UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- ====================================== -->
@@ -286,7 +324,7 @@ Margin="5"
                     <TextBox Grid.Row="2"
                  Grid.Column="3"
                  Margin="5"
-                 Text="{Binding PhiGuiXe,
+                 Text="{Binding PhiGuiXe,StringFormat={}{0:N0},
                                 UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- ====================================== -->
@@ -302,7 +340,7 @@ Margin="5"
                  Grid.Column="1"
                  Grid.ColumnSpan="3"
                  Margin="5"
-                 Text="{Binding GhiChuThanhToan}"/>
+                 Text="{Binding GhiChu,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
                 </Grid>
 

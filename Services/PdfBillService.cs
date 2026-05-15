@@ -35,6 +35,7 @@ namespace QL_HaiSan_HoangNhi.Services
             // FONT
             // =============================
           XFont fontTitle =new XFont("Verdana", 14,XFontStyle.Bold);
+            XFont fontHoaDon = new XFont("Verdana", 10, XFontStyle.Bold);
 
             XFont fontNormal =new XFont("Verdana", 10, XFontStyle.Regular);
 
@@ -46,13 +47,20 @@ namespace QL_HaiSan_HoangNhi.Services
             // SHOP
             // =============================
             gfx.DrawString("HẢI SẢN HOÀNG NHI",fontTitle,XBrushes.Black,new XRect(0, y, page.Width, 20),
+                XStringFormats.TopCenter); 
+            y += 25;
+
+            gfx.DrawString("HÓA ĐƠN BÁN HÀNG", fontHoaDon, XBrushes.Black, new XRect(0, y, page.Width, 20),
+               XStringFormats.TopCenter);
+            y += 15;
+            gfx.DrawString("Số HĐ: " + hoaDon.SoHoaDon, fontNormal, XBrushes.Black, new XRect(0, y, page.Width, 20),
+               XStringFormats.TopCenter);
+
+            y += 15;
+            gfx.DrawString("Ngày giờ:"+ DateTime.Now.ToString("dd/MM/yyyy HH:mm"), fontNormal,XBrushes.Black, new XRect(10, y, page.Width, 20),
                 XStringFormats.TopCenter);
 
             y += 25;
-            gfx.DrawString(DateTime.Now.ToString("dd/MM/yyyy HH:mm"), fontNormal,XBrushes.Black, new XRect(10, y, page.Width, 20),
-                XStringFormats.TopCenter);
-
-            y += 20;
             // =============================
             // KHÁCH HÀNG
             // =============================

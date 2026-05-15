@@ -42,6 +42,19 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 OnPropertyChanged();
             }
         }
+        private string _ghiChu;
+
+        public string GhiChu
+        {
+            get => _ghiChu;
+
+            set
+            {
+                _ghiChu = value;
+
+                OnPropertyChanged();
+            }
+        }
 
         private decimal _tienKhachDua;
 
@@ -132,7 +145,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 OnPropertyChanged();
 
                 LoadChiTietHoaDon();
-                EmptyThanhToan();
+                LoadThongTinThanhToan();
             }
         }
         public ObservableCollection<CtHoadon> ChiTietHoaDon
@@ -148,7 +161,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                     &&
                     (x.TrangThaiThanhToan
                         == "CHUATHANHTOAN" ||  x.TrangThaiThanhToan
-                        == "CONGNO"))
+                        == "CONNO"))
                 .OrderByDescending(x => x.Ngaylap)
                 .ToList();
 
@@ -196,22 +209,25 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             SelectedHoaDon.ShipperId = SelectedShipper?.Id;
             SelectedHoaDon.HinhthucThanhtoan = HinhThucThanhToan;
             SelectedHoaDon.Conlai = ConLai;
-            SelectedHoaDon.Trangthai = "DANGGIAO";
+            SelectedHoaDon.Ghichu = GhiChu;
+
 
             //NẾU CÒN NỢ
             if (ConLai > 0)
             {
                 SelectedHoaDon
                 .TrangThaiThanhToan
-                    = "CONGNO";
-           
+                    = "CONNO";
+                SelectedHoaDon.Trangthai = "DANGGIAO";
+
             }
             else
             {
                 SelectedHoaDon
                 .TrangThaiThanhToan
                     = "DATHANHTOAN";
-              
+                SelectedHoaDon.Trangthai = "HOANTHANH";
+
             }
 
 
@@ -237,18 +253,28 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             OnPropertyChanged(nameof(DanhSachShipper));
         }
         //Xóa trắng thông tin thanh toán
-        public void EmptyThanhToan()
+        public void LoadThongTinThanhToan()
         {
-            HinhThucThanhToan = string.Empty;
-            TienKhachDua = 0;
-            ConLai = 0;
-            PhiShip = 0;
-            PhiGuiXe = 0;
-            Shipper = string.Empty;
-            OnPropertyChanged(nameof(DanhSachShipper));
-            OnPropertyChanged(nameof(TienKhachDua));
-            OnPropertyChanged(nameof(PhiShip));
-            OnPropertyChanged(nameof(PhiGuiXe));
+            if (SelectedHoaDon == null)
+                return;
+
+            HinhThucThanhToan =
+                SelectedHoaDon.HinhthucThanhtoan ?? "TM";
+
+            TienKhachDua =
+                SelectedHoaDon.Thanhtoan ?? 0;
+
+            PhiShip =
+                SelectedHoaDon.Phiship ?? 0;
+
+            PhiGuiXe =
+                SelectedHoaDon.Phiguixe ?? 0;
+            GhiChu = SelectedHoaDon.Ghichu ?? "";
+
+            SelectedShipper =
+                DanhSachShipper.FirstOrDefault(x =>
+                    x.Id == SelectedHoaDon.ShipperId);
+
             TinhConLai();
         }
     }

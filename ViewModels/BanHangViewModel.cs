@@ -529,7 +529,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             {
                 Ngaylap = DateTime.Now,
                 KhachhangId = kh.Id,
-                ShipperId = 1,
+                ShipperId = 0,
                 NhanvienId = 1,
                 Tongtien = 0,
                 Trangthai = "TAM",

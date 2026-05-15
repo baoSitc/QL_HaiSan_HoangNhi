@@ -32,6 +32,11 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             get;
             set;
         }
+        public string SoHoaDon
+        {
+            get;
+            set;
+        }
 
         public string TenTab { get; set; }
         public ObservableCollection<HoaDonItem> GioHang
@@ -82,7 +87,8 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             // ==========================
             // UPDATE TRẠNG THÁI
             // ==========================
-
+            SoHoaDon =hd.Sohd= TaoSoHoaDon();
+            
             hd.Trangthai = "DANGGIAO";
 
             hd.TrangThaiThanhToan =
@@ -133,6 +139,31 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
             pdf.ExportPdf(this);
 
+        }
+        //Tạo số hóa đơn
+        public string TaoSoHoaDon()
+        {
+            string ngay =
+    DateTime.Now.ToString("yyyyMMdd");
+
+            var sohdCuoi = App.Db.Hoadons
+                .Where(x =>
+                    x.Sohd.StartsWith(ngay))
+                .OrderByDescending(x => x.Sohd)
+                .Select(x => x.Sohd)
+                .FirstOrDefault();
+
+            int stt = 1;
+
+            if (sohdCuoi != null)
+            {
+                string soCuoi =
+                    sohdCuoi.Substring(9);
+
+                stt = int.Parse(soCuoi) + 1;
+            }
+
+            return $"{ngay}-{stt:0000}";
         }
         //khách hàng
         private ObservableCollection<Khachhang> _danhSachKhachHang;
