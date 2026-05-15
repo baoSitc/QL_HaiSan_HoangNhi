@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using QL_HaiSan_HoangNhi.Helpers;
 using QL_HaiSan_HoangNhi.Models;
 using QL_HaiSan_HoangNhi.Services;
 using System;
@@ -111,6 +112,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
 
             CloseTabAction?.Invoke(this);
+            EventBus.HoaDonDaIn?.Invoke();
 
             // tạo tab mới
             //   BanHangViewModel.TaoHoaDon();

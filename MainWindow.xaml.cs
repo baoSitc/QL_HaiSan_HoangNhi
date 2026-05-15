@@ -104,5 +104,12 @@ namespace QL_HaiSan_HoangNhi
          "CashRegister",
          new BanHangView());
         }
+        private void BtnThanhToan_Click(object sender, RoutedEventArgs e)
+        {
+            OpenTab(
+         "Thanh toán",
+         "CashRegister",
+         new ThanhToanView());
+        }
     }
 }

@@ -187,7 +187,8 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
                     DiaChiGiao = value.Diachi;
                 }
-                else {
+                else
+                {
                     TenKhachHang = string.Empty;
                     DiaChiGiao = string.Empty;
                 }
@@ -272,7 +273,6 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             if (DanhSachHoaDonTam.Count == 0)
             {
                 TaoHoaDon();
-
             }
 
 
@@ -284,7 +284,11 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
             GiamSoLuongCommand =
                 new RelayCommand<HoaDonItem>(GiamSoLuong);
+
         }
+
+
+
         public void TangSoLuong(HoaDonItem item)
         {
             if (item == null)
@@ -335,27 +339,6 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
             TinhTongTien();
         }
-
-        public void TaoHoaDon()
-        {
-            String _tenTab = $"Đơn {DanhSachHoaDonTam.Count + 1}";
-            if(TenKhachHang != null && TenKhachHang != string.Empty)
-            {
-                _tenTab = TenKhachHang;
-            }
-
-            HoaDonTamViewModel hd =
-                new HoaDonTamViewModel()
-                {
-                   
-                    TenTab = _tenTab                       
-                };
-            hd.CloseTabAction = CloseTab;
-
-            DanhSachHoaDonTam.Add(hd);
-
-            SelectedHoaDon = hd;
-        }
         public void CloseTab(HoaDonTamViewModel tab)
         {
             if (tab == null)
@@ -368,6 +351,26 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             {
                 TaoHoaDon();
             }
+        }
+        public void TaoHoaDon()
+        {
+            String _tenTab = $"Đơn {DanhSachHoaDonTam.Count + 1}";
+            if (TenKhachHang != null && TenKhachHang != string.Empty)
+            {
+                _tenTab = TenKhachHang;
+            }
+
+            HoaDonTamViewModel hd =
+                new HoaDonTamViewModel()
+
+                { TenTab = _tenTab };
+            hd.CloseTabAction = CloseTab;
+
+
+
+            DanhSachHoaDonTam.Add(hd);
+
+            SelectedHoaDon = hd;
         }
 
         public void LoadLoaiHang()
@@ -454,14 +457,14 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             //Kiểm tra khách hàng đã có chưa, nếu chưa có thì thêm mới, nếu có rồi thì tăng số lượng
             var kh = SelectedHoaDon.KiemTraKhachHang();
             if (kh == null) return;
-            
+
 
             // tạo hóa đơn tạm
             TaoHoaDonTam();
 
             // chưa tạo được
             if (SelectedHoaDon.HoaDonId <= 0)
-                return;           
+                return;
 
 
             var item = SelectedHoaDon.GioHang
@@ -495,7 +498,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
 
             TinhTongTien();
-           // LoadKhachHang();
+            // LoadKhachHang();
         }
 
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -526,12 +529,12 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             {
                 Ngaylap = DateTime.Now,
                 KhachhangId = kh.Id,
-                ShipperId=1,
-                NhanvienId=1,
+                ShipperId = 1,
+                NhanvienId = 1,
                 Tongtien = 0,
                 Trangthai = "TAM",
                 Diachigiao = SelectedHoaDon.DiaChiGiao,
-                Ghichu= SelectedHoaDon.GhiChu
+                Ghichu = SelectedHoaDon.GhiChu
 
             };
             //lấy tên tab là 
@@ -589,6 +592,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             {
                 HoaDonTamViewModel tab =
                     new HoaDonTamViewModel();
+                tab.CloseTabAction = CloseTab;
 
                 // =========================
                 // THÔNG TIN HÓA ĐƠN
@@ -609,7 +613,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
                 if (kh != null)
                 {
-                   // tab.SelectedKhachHang = kh;
+                    // tab.SelectedKhachHang = kh;
 
                     tab.SoDienThoai = kh.Sdt;
 
@@ -659,6 +663,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             SelectedHoaDon =
                 DanhSachHoaDonTam.FirstOrDefault();
         }
+
 
 
     }
