@@ -1,10 +1,13 @@
-﻿using QL_HaiSan_HoangNhi.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using QL_HaiSan_HoangNhi.Models;
+using QL_HaiSan_HoangNhi.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 
 namespace QL_HaiSan_HoangNhi.ViewModels
 {
@@ -14,6 +17,13 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         protected void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        public Action<HoaDonTamViewModel>? CloseTabAction;
+        //In hóa đơn
+        public ICommand InBillCommand
+        {
+            get;
+            set;
         }
 
         public int HoaDonId
@@ -44,6 +54,83 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         public HoaDonTamViewModel()
         {
             TenTab = "Hóa đơn mới";
+            InBillCommand =
+  new RelayCommand(InBill);
+        }
+        public void InBill()
+        {
+            if (HoaDonId == 0)
+                return;
+
+            // chưa có hàng
+            if (GioHang.Count == 0)
+            {
+                MessageBox.Show("Chưa có hàng hóa");
+
+                return;
+            }
+
+            // tìm hóa đơn DB
+            var hd = App.Db.Hoadons
+                .FirstOrDefault(x =>
+                    x.Id == HoaDonId);
+
+            if (hd == null)
+                return;
+
+            // ==========================
+            // UPDATE TRẠNG THÁI
+            // ==========================
+
+            hd.Trangthai = "DANGGIAO";
+
+            hd.TrangThaiThanhToan =
+                "CHUATHANHTOAN";
+
+            hd.Tongtien =
+                TongTien;
+
+            App.Db.SaveChanges();
+
+            // ==========================
+            // TRỪ TỒN KHO
+            // ==========================
+
+            //TruTonKho();
+
+            // ==========================
+            // IN BILL
+            // ==========================
+
+            PrintBill();
+
+            // ==========================
+            // ĐÓNG TAB
+            // ==========================
+            // xóa tab hiện tại
+
+
+            CloseTabAction?.Invoke(this);
+
+            // tạo tab mới
+            //   BanHangViewModel.TaoHoaDon();
+        }
+        public void PrintBill()
+        {
+            MessageBox.Show(
+                "Đang in bill...");
+            //     BillPrinter printer =
+            //new BillPrinter();
+
+            //     printer.HoaDon = this;
+
+            //     printer.Print();
+
+            PdfBillService pdf =
+       new PdfBillService();
+
+            pdf.ExportPdf(this);
+
         }
         //khách hàng
         private ObservableCollection<Khachhang> _danhSachKhachHang;

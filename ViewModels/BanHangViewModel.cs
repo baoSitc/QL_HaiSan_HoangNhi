@@ -272,6 +272,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             if (DanhSachHoaDonTam.Count == 0)
             {
                 TaoHoaDon();
+
             }
 
 
@@ -347,13 +348,26 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 new HoaDonTamViewModel()
                 {
                    
-                    TenTab = _tenTab
-                       
+                    TenTab = _tenTab                       
                 };
+            hd.CloseTabAction = CloseTab;
 
             DanhSachHoaDonTam.Add(hd);
 
             SelectedHoaDon = hd;
+        }
+        public void CloseTab(HoaDonTamViewModel tab)
+        {
+            if (tab == null)
+                return;
+
+            DanhSachHoaDonTam.Remove(tab);
+
+            // tạo tab mới nếu hết
+            if (DanhSachHoaDonTam.Count == 0)
+            {
+                TaoHoaDon();
+            }
         }
 
         public void LoadLoaiHang()

@@ -203,45 +203,56 @@
 
                             <!-- THANH TOÁN -->
                             <GroupBox Header="THANH TOÁN"
-                              DockPanel.Dock="Bottom"
-                              FontWeight="Bold"
-                              Margin="0,10,0,0">
+                      DockPanel.Dock="Bottom"
+                      FontWeight="Bold"
+                      Margin="0,10,0,0">
 
                                 <Border Background="White"
-                                Padding="10">
+                        Padding="10">
 
                                     <StackPanel>
 
                                         <!-- TỔNG TIỀN -->
                                         <TextBlock Text="{Binding TongTien,
-                                                          StringFormat=Tổng tiền: {0:N0} đ}"
-                                           FontSize="24"
-                                           FontWeight="Bold"
-                                           Foreground="#E53935"
-                                           HorizontalAlignment="Right"
-                                           Margin="0,0,0,10"/>
+                                                  StringFormat=Tổng tiền: {0:N0} đ}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#E53935"
+                                   HorizontalAlignment="Right"
+                                   Margin="0,0,0,10"/>
 
                                         <!-- BUTTON -->
                                         <UniformGrid Columns="2">
 
                                             <!-- LƯU TẠM -->
-                                            <Button Content="Lưu tạm"
-                                            Height="45"
-                                            Margin="5"
-                                            Background="#FF9800"
-                                            Foreground="White"
-                                            FontWeight="Bold"
-                                            Command="{Binding DataContext.TaoHoaDonCommand,
-                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                            <Button Content="Tạo mới"
+                                    Height="45"
+                                    Margin="5"
+                                    Background="#FF9800"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Command="{Binding DataContext.TaoHoaDonCommand,
+                                                      RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+
+                                            <!-- IN HÓA ĐƠN -->
+                                            <Button Content="IN BILL"
+Height="45"
+Margin="5"
+FontSize="16"
+FontWeight="Bold"
+Background="#4CAF50"
+Foreground="White"
+Command="{Binding InBillCommand}"/>
 
                                             <!-- THANH TOÁN -->
                                             <Button Content="Thanh toán"
-                                            Height="45"
-                                            Margin="5"
-                                            Background="#4CAF50"
-                                            Foreground="White"
-                                            FontWeight="Bold"
-                                            Command="{Binding ThanhToanCommand}"/>
+                                    Height="45"
+                                    Margin="5"
+                                    Background="#4CAF50"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Command="{Binding ThanhToanCommand}"/>
 
                                         </UniformGrid>
 

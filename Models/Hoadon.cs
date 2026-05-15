@@ -58,6 +58,11 @@ public partial class Hoadon
     [StringLength(100)]
     public string? Trangthai { get; set; }
 
+    [Column("TrangThaiThanhToan")]
+    [StringLength(100)]
+    public string? TrangThaiThanhToan { get; set; }
+
+    
     [Column("DIACHIGIAO")]
     [StringLength(500)]
     public string? Diachigiao { get; set; }
