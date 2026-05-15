@@ -5,13 +5,41 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace QL_HaiSan_HoangNhi.ViewModels
 {
 
-    public partial class BanHangViewModel:BaseViewModel,INotifyPropertyChanged
+    public partial class BanHangViewModel : BaseViewModel, INotifyPropertyChanged
     {
+        //Tạo các tab hóa đơn tạm
+        public ObservableCollection<HoaDonTamViewModel>
+    DanhSachHoaDonTam
+        {
+            get;
+            set;
+        }
+    = new();
+        //tab hiện tại
+        private HoaDonTamViewModel _selectedHoaDon;
+
+        public HoaDonTamViewModel SelectedHoaDon
+        {
+            get => _selectedHoaDon;
+            set
+            {
+                _selectedHoaDon = value;
+
+                OnPropertyChanged();
+            }
+        }
+        //thêm tab hóa đơn mới
+        public ICommand TaoHoaDonCommand
+        {
+            get;
+        }
+
         //tìm kiếm hàng hóa
         private string _tuKhoa;
 
@@ -31,7 +59,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         {
             if (string.IsNullOrWhiteSpace(TuKhoa))
             {
-              LoadHangHoa();
+                LoadHangHoa();
                 OnPropertyChanged(nameof(DanhSachHangHoa));
                 return;
             }
@@ -62,12 +90,12 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         }
         public Loaihang _selectedLoaiHang;
 
-        public ObservableCollection<Loaihang>DanhSachLoaiHang   
+        public ObservableCollection<Loaihang> DanhSachLoaiHang
         {
             get;
             set;
         }
-     public Loaihang SelectedLoaiHang
+        public Loaihang SelectedLoaiHang
         {
             get => _selectedLoaiHang;
             set
@@ -159,7 +187,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
                     DiaChiGiao = value.Diachi;
                 }
-                else { 
+                else {
                     TenKhachHang = string.Empty;
                     DiaChiGiao = string.Empty;
                 }
@@ -218,20 +246,116 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public ICommand TangSoLuongCommand
+        {
+            get;
+            set;
+        }
+
+        public ICommand GiamSoLuongCommand
+        {
+            get;
+            set;
+        }
+
         //Contructor
         public BanHangViewModel()
         {
             LoadKhachHang();
             //load loại hàng
-
             LoadLoaiHang();
-            //load hàng hóa
-           // LoadHangHoa();
-            
+            TaoHoaDonCommand =
+      new RelayCommand(TaoHoaDon);
+            LoadHoaDonTam();
+
+            // nếu không có hóa đơn nào
+            if (DanhSachHoaDonTam.Count == 0)
+            {
+                TaoHoaDon();
+            }
+
+
 
             ThemGioHangCommand = new RelayCommand(ThemGioHang);
-            ChonHangCommand =   new RelayCommand<Hanghoa>(ChonHang);
+            ChonHangCommand = new RelayCommand<Hanghoa>(ChonHang);
+            TangSoLuongCommand =
+                new RelayCommand<HoaDonItem>(TangSoLuong);
+
+            GiamSoLuongCommand =
+                new RelayCommand<HoaDonItem>(GiamSoLuong);
         }
+        public void TangSoLuong(HoaDonItem item)
+        {
+            if (item == null)
+                return;
+
+            item.SoLuong++;
+
+            UpdateCTHoaDon(item);
+
+            TinhTongTien();
+        }
+        public void GiamSoLuong(HoaDonItem item)
+        {
+            if (item == null)
+                return;
+
+            item.SoLuong--;
+
+            // <= 0 => xóa
+            if (item.SoLuong <= 0)
+            {
+                XoaHang(item);
+
+                return;
+            }
+
+            UpdateCTHoaDon(item);
+
+            TinhTongTien();
+        }
+        public void XoaHang(HoaDonItem item)
+        {
+            // xóa grid
+            SelectedHoaDon.GioHang.Remove(item);
+
+            // xóa DB
+            var ct = App.Db.CtHoadons
+                .FirstOrDefault(x =>
+                    x.HoadonId == SelectedHoaDon.HoaDonId
+                    && x.HanghoaId == item.HangHoaId);
+
+            if (ct != null)
+            {
+                App.Db.CtHoadons.Remove(ct);
+
+                App.Db.SaveChanges();
+            }
+
+            TinhTongTien();
+        }
+
+        public void TaoHoaDon()
+        {
+            String _tenTab = $"Đơn {DanhSachHoaDonTam.Count + 1}";
+            if(TenKhachHang != null && TenKhachHang != string.Empty)
+            {
+                _tenTab = TenKhachHang;
+            }
+
+            HoaDonTamViewModel hd =
+                new HoaDonTamViewModel()
+                {
+                   
+                    TenTab = _tenTab
+                       
+                };
+
+            DanhSachHoaDonTam.Add(hd);
+
+            SelectedHoaDon = hd;
+        }
+
         public void LoadLoaiHang()
         {
             var data = App.Db.Loaihangs.ToList();
@@ -292,19 +416,47 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         }
         public void TinhTongTien()
         {
-            TongTien = GioHang.Sum(x => x.ThanhTien);
-            OnPropertyChanged(nameof(GioHang));
+            if (SelectedHoaDon == null) return;
+            SelectedHoaDon.TongTien = SelectedHoaDon.GioHang.Sum(x => x.ThanhTien);
+            // update DB
+            var hd = App.Db.Hoadons
+                .FirstOrDefault(x =>
+                    x.Id == SelectedHoaDon.HoaDonId);
+
+            if (hd != null)
+            {
+                hd.Tongtien = SelectedHoaDon.TongTien;
+
+                App.Db.SaveChanges();
+            }
+
+            OnPropertyChanged(nameof(SelectedHoaDon.GioHang));
         }
         public void ChonHang(Hanghoa hh)
         {
-            if (hh == null)
+
+            if (hh == null || SelectedHoaDon == null)
                 return;
-            var item = GioHang
-                .FirstOrDefault(x => x.HangHoaId == hh.Id);
+            //Kiểm tra khách hàng đã có chưa, nếu chưa có thì thêm mới, nếu có rồi thì tăng số lượng
+            var kh = SelectedHoaDon.KiemTraKhachHang();
+            if (kh == null) return;
+            
+
+            // tạo hóa đơn tạm
+            TaoHoaDonTam();
+
+            // chưa tạo được
+            if (SelectedHoaDon.HoaDonId <= 0)
+                return;           
+
+
+            var item = SelectedHoaDon.GioHang
+         .FirstOrDefault(x => x.HangHoaId == hh.Id);
 
             if (item != null)
             {
                 item.SoLuong++;
+                UpdateCTHoaDon(item);
 
                 TinhTongTien();
 
@@ -323,14 +475,177 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             // QUAN TRỌNG
             newItem.PropertyChanged += Item_PropertyChanged;
 
-            GioHang.Add(newItem);
+            SelectedHoaDon.GioHang.Add(newItem);
+            // save DB
+            InsertCTHoaDon(newItem);
+
 
             TinhTongTien();
+           // LoadKhachHang();
         }
 
         private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            TinhTongTien();
+
+            if (sender is HoaDonItem item)
+            {
+                UpdateCTHoaDon(item);
+
+                TinhTongTien();
+            }
         }
+        public void TaoHoaDonTam()
+        {
+            if (SelectedHoaDon == null)
+                return;
+
+            // đã có bill
+            if (SelectedHoaDon.HoaDonId > 0)
+                return;
+
+            var kh = SelectedHoaDon.KiemTraKhachHang();
+
+            if (kh == null)
+                return;
+
+            Hoadon hd = new Hoadon()
+            {
+                Ngaylap = DateTime.Now,
+                KhachhangId = kh.Id,
+                ShipperId=1,
+                NhanvienId=1,
+                Tongtien = 0,
+                Trangthai = "TAM",
+                Diachigiao = SelectedHoaDon.DiaChiGiao,
+                Ghichu= SelectedHoaDon.GhiChu
+
+            };
+            //lấy tên tab là 
+            SelectedHoaDon.TenTab = kh.Tenkh;
+
+
+            App.Db.Hoadons.Add(hd);
+
+            App.Db.SaveChanges();
+
+            // lưu lại ID DB
+            SelectedHoaDon.HoaDonId = hd.Id;
+        }
+        public void InsertCTHoaDon(HoaDonItem item)
+        {
+            CtHoadon ct = new CtHoadon()
+            {
+                HoadonId = SelectedHoaDon.HoaDonId,
+                HanghoaId = item.HangHoaId,
+                Soluong = item.SoLuong,
+                Dongia = item.DonGia,
+                Thanhtien = item.ThanhTien
+            };
+
+            App.Db.CtHoadons.Add(ct);
+
+            App.Db.SaveChanges();
+        }
+        public void UpdateCTHoaDon(HoaDonItem item)
+        {
+            var ct = App.Db.CtHoadons
+                .FirstOrDefault(x =>
+                    x.HoadonId == SelectedHoaDon.HoaDonId
+                    && x.HanghoaId == item.HangHoaId);
+
+            if (ct == null)
+                return;
+
+            ct.Soluong = item.SoLuong;
+            ct.Dongia = item.DonGia;
+
+            ct.Thanhtien = item.ThanhTien;
+
+            App.Db.SaveChanges();
+        }
+
+        //load hóa đơn tạm vào các tab
+        public void LoadHoaDonTam()
+        {
+            var listHoaDon = App.Db.Hoadons
+                .Where(x => x.Trangthai == "TAM")
+                .ToList();
+
+            foreach (var hd in listHoaDon)
+            {
+                HoaDonTamViewModel tab =
+                    new HoaDonTamViewModel();
+
+                // =========================
+                // THÔNG TIN HÓA ĐƠN
+                // =========================
+
+                tab.HoaDonId = hd.Id;
+
+                tab.TongTien = hd.Tongtien ?? 0;
+
+                tab.TenTab = $"HD {hd.Id}";
+
+                // =========================
+                // KHÁCH HÀNG
+                // =========================
+
+                var kh = App.Db.Khachhangs
+                    .FirstOrDefault(x => x.Id == hd.KhachhangId);
+
+                if (kh != null)
+                {
+                   // tab.SelectedKhachHang = kh;
+
+                    tab.SoDienThoai = kh.Sdt;
+
+                    tab.TenKhachHang = kh.Tenkh;
+
+                    tab.DiaChiGiao = kh.Diachi;
+                    tab.TenTab = kh.Tenkh;
+                }
+
+                // =========================
+                // CHI TIẾT HÓA ĐƠN
+                // =========================
+
+                var ctList = App.Db.CtHoadons
+                    .Where(x => x.HoadonId == hd.Id)
+                    .ToList();
+
+                foreach (var ct in ctList)
+                {
+                    var hh = App.Db.Hanghoas
+                        .FirstOrDefault(x => x.Id == ct.HanghoaId);
+
+                    HoaDonItem item = new HoaDonItem()
+                    {
+                        HangHoaId = ct.HanghoaId ?? 0,
+
+                        TenHang = hh?.Tenhh,
+
+                        Dvt = hh?.Dvt,
+
+                        SoLuong = ct.Soluong ?? 0,
+
+                        DonGia = ct.Dongia ?? 0
+                    };
+
+                    // realtime update
+                    item.PropertyChanged += Item_PropertyChanged;
+
+                    tab.GioHang.Add(item);
+                }
+
+                // add tab
+                DanhSachHoaDonTam.Add(tab);
+            }
+
+            // chọn tab đầu
+            SelectedHoaDon =
+                DanhSachHoaDonTam.FirstOrDefault();
+        }
+
+
     }
 }

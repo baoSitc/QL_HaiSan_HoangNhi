@@ -3,508 +3,516 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:QL_HaiSan_HoangNhi.ViewModels"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:QL_HaiSan_HoangNhi.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="900"
-             d:DesignWidth="1600">
+             d:DesignHeight="800"
+             d:DesignWidth="1400">
 
     <UserControl.DataContext>
+
         <vm:BanHangViewModel/>
+
     </UserControl.DataContext>
 
-    <Grid Background="#F5F5F5">
+    <Grid Background="#F5F5F5"
+          Margin="10">
 
         <Grid.ColumnDefinitions>
 
-            <!-- DANH SÁCH HÀNG -->
-            <ColumnDefinition Width="2*"/>
+            <!-- LEFT -->
+            <ColumnDefinition Width="1.4*"/>
 
-            <!-- GIỎ HÀNG -->
-            <ColumnDefinition Width="1.2*"/>
+            <!-- RIGHT -->
+            <ColumnDefinition Width="1*"/>
 
         </Grid.ColumnDefinitions>
 
-        <!-- ===================================================== -->
-        <!-- BÊN TRÁI -->
-        <!-- ===================================================== -->
+        <!-- ================================================= -->
+        <!-- LEFT : HÀNG HÓA -->
+        <!-- ================================================= -->
 
         <Grid Grid.Column="0"
-              Margin="10">
+              Margin="0,0,10,0">
 
             <Grid.RowDefinitions>
 
-                <!-- KHÁCH HÀNG -->
                 <RowDefinition Height="Auto"/>
-
-                <!-- FILTER -->
-                <RowDefinition Height="Auto"/>
-
-                <!-- HÀNG HÓA -->
                 <RowDefinition Height="*"/>
 
             </Grid.RowDefinitions>
 
-            <!-- ===================================================== -->
-            <!-- THÔNG TIN KHÁCH HÀNG -->
-            <!-- ===================================================== -->
-
-            <GroupBox Header="THÔNG TIN KHÁCH HÀNG"
-          Grid.Row="0"
-          Margin="0,0,0,10"
-          
-          FontSize="12">
-
-                <Border Background="White"
-            CornerRadius="8"
-            Padding="10">
-
-
-                    <Grid>
-
-                        <Grid.ColumnDefinitions>
-
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="250"/>
-
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="*"/>
-
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-
-                            <RowDefinition Height="45"/>
-                            <RowDefinition Height="45"/>
-
-                        </Grid.RowDefinitions>
-
-                        <!-- SĐT -->
-                        <TextBlock Text="Số điện thoại:"
-                               Grid.Row="0"
-                               Grid.Column="0"
-                               VerticalAlignment="Center"
-                               FontWeight="SemiBold"/>
-
-                        <ComboBox Grid.Row="0"
-                              Grid.Column="1"
-                              Height="35"
-                              Margin="5"
-                              IsEditable="True"
-                              IsTextSearchEnabled="True"
-                              TextSearch.TextPath="Sdt"
-                              ItemsSource="{Binding DanhSachKhachHang}"
-                              SelectedItem="{Binding SelectedKhachHang}" 
-                              GotFocus="ComboBox_GotFocus">
-
-                            <ComboBox.ItemTemplate>
-
-                                <DataTemplate>
-
-                                    <TextBlock>
-
-                                    <Run Text="{Binding Sdt}"/>
-                                    <Run Text=" - "/>
-                                    <Run Text="{Binding Tenkh}"/>
-
-                                    </TextBlock>
-
-                                </DataTemplate>
-
-                            </ComboBox.ItemTemplate>
-
-                        </ComboBox>
-
-                        <!-- TÊN KH -->
-                        <TextBlock Text="Tên khách:"
-                               Grid.Row="0"
-                               Grid.Column="2"
-                               VerticalAlignment="Center"
-                               FontWeight="SemiBold"/>
-
-                        <TextBox Grid.Row="0"
-                             Grid.Column="3"
-                             Height="35"
-                             Margin="5"
-                             Text="{Binding TenKhachHang,
-                                            UpdateSourceTrigger=PropertyChanged}"/>
-
-                        <!-- ĐỊA CHỈ -->
-                        <TextBlock Text="Địa chỉ giao:"
-                               Grid.Row="1"
-                               Grid.Column="0"
-                               VerticalAlignment="Center"
-                               FontWeight="SemiBold"/>
-
-                        <TextBox Grid.Row="1"
-                             Grid.Column="1"
-                             Grid.ColumnSpan="3"
-                             Height="35"
-                             Margin="5"
-                             Text="{Binding DiaChiGiao,
-                                            UpdateSourceTrigger=PropertyChanged}"/>
-
-                    </Grid>
-
-                </Border>
-
-            </GroupBox>
-
-            <!-- ===================================================== -->
             <!-- FILTER -->
-            <!-- ===================================================== -->
-
             <GroupBox Header="HÀNG HÓA"
-          Grid.Row="1"
-          
-          FontSize="12"
-          Margin="0,0,0,10">
-
-                <Grid>
-
-                    <Grid.RowDefinitions>
-
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-
-                    </Grid.RowDefinitions>
-
-                    <!-- FILTER -->
-                    <Border Grid.Row="0"
-                Background="White"
-                CornerRadius="8"
-                Padding="10"
-                Margin="0,0,0,10">
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <!-- LOẠI HÀNG -->
-                            <ComboBox Width="220"
-                          Height="35"
-                          Margin="5"
-                          ItemsSource="{Binding DanhSachLoaiHang}"
-                          SelectedItem="{Binding SelectedLoaiHang}"
-                          DisplayMemberPath="Tenloai"/>
-
-                            <!-- TÌM KIẾM -->
-                            <TextBox Width="300"
-                         Height="35"
-                         Margin="5"
-                         Text="{Binding TuKhoa,
-                                        UpdateSourceTrigger=PropertyChanged}"
-                         materialDesign:HintAssist.Hint="Tìm hàng hóa..."/>
-
-                        </StackPanel>
-
-                    </Border>
-
-                    <!-- DANH SÁCH HÀNG -->
-                    <Border Grid.Row="1"
-                Background="White"
-                Padding="10">
-
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-
-                            <ItemsControl ItemsSource="{Binding DanhSachHangHoa}">
-
-                                <ItemsControl.ItemsPanel>
-
-                                    <ItemsPanelTemplate>
-
-                                        <WrapPanel/>
-
-                                    </ItemsPanelTemplate>
-
-                                </ItemsControl.ItemsPanel>
-
-                                <ItemsControl.ItemTemplate>
-
-                                    <DataTemplate>
-
-                                        <Button Width="170"
-                                    Height="130"
-                                    Margin="6"
-                                    Padding="5"
-                                    Background="White"
-                                    BorderBrush="#DDDDDD"
-                                    BorderThickness="1"
-                                    Cursor="Hand"
-                                    Command="{Binding DataContext.ChonHangCommand,
-                                                      RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                    CommandParameter="{Binding}">
-
-                                            <StackPanel>
-
-                                                <!-- HÌNH -->
-                                                <Border Height="55"
-                                            Background="#EEEEEE"
-                                            CornerRadius="5"
-                                            Margin="0,0,0,5">
-
-                                                    <TextBlock Text="Hình"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="Gray"/>
-
-                                                </Border>
-
-                                                <!-- TÊN -->
-                                                <TextBlock Text="{Binding Tenhh}"
-                                               
-                                               FontSize="12"
-                                               TextWrapping="Wrap"
-                                               TextAlignment="Center"
-                                               MaxHeight="40"/>
-
-                                                <!-- GIÁ -->
-                                                <TextBlock Text="{Binding Giaban,
-                                                              StringFormat={}{0:N0} đ}"
-                                               FontSize="16"
-                                               FontWeight="Bold"
-                                               Foreground="#E53935"
-                                               HorizontalAlignment="Center"
-                                               Margin="0,8,0,0"/>
-
-                                            </StackPanel>
-
-                                        </Button>
-
-                                    </DataTemplate>
-
-                                </ItemsControl.ItemTemplate>
-
-                            </ItemsControl>
-
-                        </ScrollViewer>
-
-                    </Border>
-
-                </Grid>
-
-            </GroupBox>
-        </Grid>
-
-        <!-- ===================================================== -->
-        <!-- BÊN PHẢI -->
-        <!-- ===================================================== -->
-        
-
-
-
-                <Grid Grid.Column="1"
-              Margin="0,10,10,10">
-
-            <Grid.RowDefinitions>
-
-                <!-- GIỎ HÀNG -->
-                <RowDefinition Height="*"/>
-
-                <!-- THANH TOÁN -->
-                <RowDefinition Height="Auto"/>
-
-            </Grid.RowDefinitions>
-
-            <!-- ===================================================== -->
-            <!-- GIỎ HÀNG -->
-            <!-- ===================================================== -->
-
-            <GroupBox Header="GIỎ HÀNG"
-Grid.Row="0"
-Margin="0,0,0,10"
-
-FontSize="12">
+                      FontSize="14"
+                      FontWeight="Bold"
+                      Margin="0,0,0,10">
 
                 <Border Background="White"
-  CornerRadius="8"
-  Padding="10">
+                        Padding="10">
 
-                    <Grid>
+                    <StackPanel Orientation="Horizontal">
 
-                    <Grid.RowDefinitions>
+                        <!-- LOẠI HÀNG -->
+                        <ComboBox Width="220"
+                                  Height="35"
+                                  Margin="5"
+                                  ItemsSource="{Binding DanhSachLoaiHang}"
+                                  SelectedItem="{Binding SelectedLoaiHang}"
+                                  DisplayMemberPath="Tenloai"/>
 
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="*"/>
-
-                    </Grid.RowDefinitions>
-
-                    <!-- TITLE -->
-
-                  
-                            <!-- GRID -->
-                            <DataGrid Grid.Row="1"
-                              ItemsSource="{Binding GioHang}"
-                              AutoGenerateColumns="False"
-                              CanUserAddRows="False"
-                              HeadersVisibility="Column"
-                              Margin="0,10,0,0">
-
-                                <DataGrid.Columns>
-
-                                    <DataGridTextColumn Header="Hàng"
-                                                Width="*"
-                                                Binding="{Binding TenHang}"/>
-
-                                    <DataGridTextColumn Header="SL"
-                                                Width="100"
-                                                Binding="{Binding SoLuong, StringFormat={}{0:N2},
-                                        Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-
-                                    <DataGridTextColumn Header="Giá"
-                                                Width="100"
-                                                       Binding="{Binding DonGia, StringFormat={}{0:N0},
-                                    Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-
-                                    <DataGridTextColumn Header="TT"
-                                                Width="120"
-                                                        IsReadOnly="True"
-                                                Binding="{Binding ThanhTien,
-                                                                  StringFormat={}{0:N0}}"/>
-
-                                </DataGrid.Columns>
-
-                            </DataGrid>
-                    
-
-                </Grid>
-
-
-                </Border>
-
-            </GroupBox>
-
-
-
-            <!-- ===================================================== -->
-            <!-- THANH TOÁN -->
-            <!-- ===================================================== -->
-
-            <GroupBox Header="THANH TOÁN"
-          Grid.Row="1"
-          FontWeight="Bold"
-          FontSize="14"
-          Margin="0,0,0,10">
-
-                <Border Background="White"
-            Padding="10">
-
-                    <StackPanel>
-
-                    <!-- TỔNG TIỀN -->
-                    <Grid Margin="0,0,0,10">
-
-                        <Grid.ColumnDefinitions>
-
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="TỔNG TIỀN"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Grid.Column="1"
-                                   Text="{Binding TongTien,
-                                                  StringFormat={}{0:N0} đ}"
-                                   FontSize="28"
-                                   FontWeight="Bold"
-                                   Foreground="#E53935"
-                                   VerticalAlignment="Center"/>
-
-                    </Grid>
-
-                    <!-- ĐÃ TRẢ -->
-                    <Grid Margin="0,0,0,10">
-
-                        <Grid.ColumnDefinitions>
-
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="*"/>
-
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="Đã trả:"
-                                   VerticalAlignment="Center"
-                                   FontWeight="SemiBold"/>
-
-                        <TextBox Grid.Column="1"
+                        <!-- SEARCH -->
+                        <TextBox Width="300"
                                  Height="35"
-                                 Text="{Binding DaTra,
-                                                UpdateSourceTrigger=PropertyChanged}"/>
-
-                    </Grid>
-
-                    <!-- CÒN NỢ -->
-                    <Grid Margin="0,0,0,15">
-
-                        <Grid.ColumnDefinitions>
-
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="*"/>
-
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="Còn nợ:"
-                                   VerticalAlignment="Center"
-                                   FontWeight="SemiBold"/>
-
-                        <TextBox Grid.Column="1"
-                                 Height="35"
-                                 IsReadOnly="True"
-                                 Background="#EEEEEE"
-                                 Text="{Binding ConNo}"/>
-
-                    </Grid>
-                        <Grid Margin="0,0,0,15">
-
-                            <Grid.ColumnDefinitions>
-
-                                <ColumnDefinition Width="120"/>
-                                <ColumnDefinition Width="*"/>
-
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Text="Ghi chú:"
-                VerticalAlignment="Center"
-                FontWeight="SemiBold"/>
-
-                            <TextBox Grid.Column="1"
-              Height="35"
-              IsReadOnly="True"
-              Background="#EEEEEE"
-              Text="{Binding GhiChu}"/>
-
-                        </Grid>
-
-
-                        <!-- BUTTON -->
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Right">
-
-                        <Button Content="Làm mới"
-                                Width="120"
-                                Height="40"
-                                Margin="5"
-                                Command="{Binding ResetCommand}"/>
-
-                        <Button Content="Thanh toán"
-                                Width="160"
-                                Height="45"
-                                Margin="5"
-                                Background="#4CAF50"
-                                Foreground="White"
-                                FontWeight="Bold"
-                                FontSize="16"
-                                Command="{Binding ThanhToanCommand}"/>
+                                 Margin="5"
+                                 Text="{Binding TuKhoa,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Hint="Tìm hàng hóa..."/>
 
                     </StackPanel>
 
-                </StackPanel>
+                </Border>
+
+            </GroupBox>
+
+            <!-- DANH SÁCH HÀNG -->
+            <GroupBox Grid.Row="1"
+                      Header="DANH SÁCH HÀNG"
+                      FontWeight="Bold"
+                      FontSize="14">
+
+                <Border Background="White"
+                        Padding="10">
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                        <ItemsControl ItemsSource="{Binding DanhSachHangHoa}">
+
+                            <ItemsControl.ItemsPanel>
+
+                                <ItemsPanelTemplate>
+
+                                    <WrapPanel/>
+
+                                </ItemsPanelTemplate>
+
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Button Width="170"
+                                            Height="130"
+                                            Margin="6"
+                                            Padding="5"
+                                            Background="White"
+                                            BorderBrush="#DDDDDD"
+                                            BorderThickness="1"
+                                            Cursor="Hand"
+                                            Command="{Binding DataContext.ChonHangCommand,
+                                                              RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}">
+
+                                        <StackPanel>
+
+                                            <!-- IMAGE -->
+                                            <Border Height="55"
+                                                    Background="#EEEEEE"
+                                                    CornerRadius="5"
+                                                    Margin="0,0,0,5">
+
+                                                <TextBlock Text="Hình"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="Gray"/>
+
+                                            </Border>
+
+                                            <!-- TÊN -->
+                                            <TextBlock Text="{Binding Tenhh}"
+                                                       FontWeight="Bold"
+                                                       FontSize="14"
+                                                       TextWrapping="Wrap"
+                                                       TextAlignment="Center"
+                                                       MaxHeight="40"/>
+
+                                            <!-- GIÁ -->
+                                            <TextBlock Text="{Binding Giaban,
+                                                                      StringFormat={}{0:N0} đ}"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Foreground="#E53935"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0,8,0,0"/>
+
+                                        </StackPanel>
+
+                                    </Button>
+
+                                </DataTemplate>
+
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+
+                    </ScrollViewer>
 
                 </Border>
 
             </GroupBox>
+
+        </Grid>
+
+        <!-- ================================================= -->
+        <!-- RIGHT : GIỎ HÀNG -->
+        <!-- ================================================= -->
+
+        <Grid Grid.Column="1">
+          
+
+            <TabControl ItemsSource="{Binding DanhSachHoaDonTam}"
+                SelectedItem="{Binding SelectedHoaDon}">
+
+                <!-- HEADER -->
+                <TabControl.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <materialDesign:PackIcon Kind="Receipt"
+                                             Width="16"
+                                             Height="16"
+                                             Margin="0,0,5,0"/>
+
+                            <TextBlock Text="{Binding TenTab}"/>
+
+                        </StackPanel>
+
+                    </DataTemplate>
+
+                </TabControl.ItemTemplate>
+
+                <!-- CONTENT -->
+                <TabControl.ContentTemplate>
+
+                    <DataTemplate>
+
+                        <DockPanel Margin="5">
+
+                            <!-- THANH TOÁN -->
+                            <GroupBox Header="THANH TOÁN"
+                              DockPanel.Dock="Bottom"
+                              FontWeight="Bold"
+                              Margin="0,10,0,0">
+
+                                <Border Background="White"
+                                Padding="10">
+
+                                    <StackPanel>
+
+                                        <!-- TỔNG TIỀN -->
+                                        <TextBlock Text="{Binding TongTien,
+                                                          StringFormat=Tổng tiền: {0:N0} đ}"
+                                           FontSize="24"
+                                           FontWeight="Bold"
+                                           Foreground="#E53935"
+                                           HorizontalAlignment="Right"
+                                           Margin="0,0,0,10"/>
+
+                                        <!-- BUTTON -->
+                                        <UniformGrid Columns="2">
+
+                                            <!-- LƯU TẠM -->
+                                            <Button Content="Lưu tạm"
+                                            Height="45"
+                                            Margin="5"
+                                            Background="#FF9800"
+                                            Foreground="White"
+                                            FontWeight="Bold"
+                                            Command="{Binding DataContext.TaoHoaDonCommand,
+                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+                                            <!-- THANH TOÁN -->
+                                            <Button Content="Thanh toán"
+                                            Height="45"
+                                            Margin="5"
+                                            Background="#4CAF50"
+                                            Foreground="White"
+                                            FontWeight="Bold"
+                                            Command="{Binding ThanhToanCommand}"/>
+
+                                        </UniformGrid>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                            </GroupBox>
+
+                            <!-- KHÁCH HÀNG -->
+                            <GroupBox Header="KHÁCH HÀNG"
+                              DockPanel.Dock="Top"
+                              FontWeight="Bold"
+                              Margin="0,0,0,10">
+                                <Border Background="White"
+                                Padding="10">
+
+
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+
+                                        </Grid.RowDefinitions>
+
+                                        <!-- ====================================== -->
+                                        <!-- SDT -->
+                                        <!-- ====================================== -->
+
+                                        <ComboBox Grid.Row="0"
+              Grid.Column="0"
+              Height="35"
+              Margin="5"
+             ItemsSource="{Binding DataContext.DanhSachKhachHang, RelativeSource={RelativeSource AncestorType=UserControl}    }"
+              Text="{Binding SoDienThoai,
+                         Mode=TwoWay,
+                         UpdateSourceTrigger=PropertyChanged}"
+
+              DisplayMemberPath="Sdt"
+              IsEditable="True"
+              TextSearch.TextPath="Sdt"
+              GotFocus="ComboBox_GotFocus">
+
+                                            <ComboBox.ItemTemplate>
+
+                                                <DataTemplate>
+
+                                                    <TextBlock>
+
+                    <Run Text="{Binding Sdt}"/>
+                    <Run Text=" - "/>
+                    <Run Text="{Binding Tenkh}"/>
+
+                                                    </TextBlock>
+
+                                                </DataTemplate>
+
+                                            </ComboBox.ItemTemplate>
+
+                                        </ComboBox>
+
+                                        <!-- ====================================== -->
+                                        <!-- TÊN KH -->
+                                        <!-- ====================================== -->
+
+                                        <TextBox Grid.Row="0"
+             Grid.Column="1"
+             Height="35"
+             Margin="5"
+            
+             Text="{Binding TenKhachHang,UpdateSourceTrigger=PropertyChanged}"
+             materialDesign:HintAssist.Hint="Tên khách hàng"/>
+
+                                        <!-- ====================================== -->
+                                        <!-- ĐỊA CHỈ -->
+                                        <!-- ====================================== -->
+
+                                        <TextBox Grid.Row="1"
+             Grid.Column="0"
+             Height="35"
+             Margin="5"
+                                                 Grid.ColumnSpan="2"
+             Text="{Binding DiaChiGiao,UpdateSourceTrigger=PropertyChanged}"
+             materialDesign:HintAssist.Hint="Địa chỉ giao hàng"/>
+
+                                        <!-- ====================================== -->
+                                        <!-- GHI CHÚ -->
+                                        <!-- ====================================== -->
+
+                                        <TextBox Grid.Row="2"
+             Grid.Column="0"
+             Height="35"
+             Margin="5"
+                                                  Grid.ColumnSpan="2"
+             Text="{Binding GhiChu}"
+             materialDesign:HintAssist.Hint="Ghi chú"/>
+
+                                    </Grid>
+
+                                </Border>
+
+                            </GroupBox>
+
+                            <!-- GIỎ HÀNG -->
+                            <GroupBox Header="GIỎ HÀNG"
+                              FontWeight="DemiBold" >
+
+                                <Border Background="White"
+                                Padding="5">
+
+                                    <DataGrid ItemsSource="{Binding GioHang}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False">
+
+                                        <DataGrid.Columns>
+
+                                            <DataGridTextColumn Header="Tên hàng"
+                                                        Width="*"
+                                                        Binding="{Binding TenHang}"/>
+
+                                            <DataGridTextColumn Header="ĐVT"
+                                                        Width="70"
+                                                        Binding="{Binding Dvt}"/>
+
+                                            <DataGridTemplateColumn Header="SL"
+                        Width="140">
+
+                                                <DataGridTemplateColumn.CellTemplate>
+
+                                                    <DataTemplate>
+
+                                                        <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                                                            <!-- GIẢM -->
+                                                            <Button Content="-"
+                        Width="40"
+                        Height="30"
+                        Margin="2" FontWeight="Bold"
+                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+
+                        Command="{Binding DataContext.GiamSoLuongCommand,
+                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+
+                        CommandParameter="{Binding}"/>
+
+                                                            <!-- SỐ LƯỢNG -->
+                                                            <TextBox Width="30"
+                         Height="30"
+                         Margin="2"
+                         TextAlignment="Center"
+
+                         Text="{Binding SoLuong,StringFormat={}{0:N2},
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}"/>
+
+                                                            <!-- TĂNG -->
+                                                            <Button Content="+"
+                     Width="40"
+ Height="30"
+ Margin="2" FontWeight="Bold"
+Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    
+
+                        Command="{Binding DataContext.TangSoLuongCommand,
+                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+
+                        CommandParameter="{Binding}"/>
+
+                                                        </StackPanel>
+
+                                                    </DataTemplate>
+
+                                                </DataGridTemplateColumn.CellTemplate>
+
+                                            </DataGridTemplateColumn>
+
+                                            <DataGridTextColumn Header="Giá" 
+                                                        Width="100"
+                                                                
+                                                        Binding="{Binding DonGia,StringFormat={}{0:N0},
+                                                                          Mode=TwoWay,
+                                                                          UpdateSourceTrigger=PropertyChanged}">
+                                                <DataGridTextColumn.ElementStyle>
+
+                                                    <Style TargetType="TextBlock">
+
+                                                        <Setter Property="TextAlignment"
+                                                                            Value="Right"/>
+
+                                                        <Setter Property="HorizontalAlignment"
+                                                                            Value="Stretch"/>
+
+                                                        <Setter Property="VerticalAlignment"
+                                                                            Value="Center"/>
+
+                                                        <Setter Property="FontWeight"
+                                                                        Value="Bold"/>
+                                                        <Setter Property="Padding"
+                                                                    Value="0,0,10,0"/>
+                                                        <Setter Property="Foreground"
+        Value="#E53935"/>
+
+                                                    </Style>
+
+                                                </DataGridTextColumn.ElementStyle>
+
+                                            </DataGridTextColumn>
+
+
+
+
+                                            <DataGridTextColumn Header="TT"
+                    Width="120"
+                    IsReadOnly="True"
+                    Binding="{Binding ThanhTien,
+                                      StringFormat={}{0:N0}}">
+
+                                                <DataGridTextColumn.ElementStyle>
+
+                                                    <Style TargetType="TextBlock">
+
+                                                        <Setter Property="TextAlignment"
+                                                                Value="Right"/>
+
+                                                        <Setter Property="HorizontalAlignment"
+                                                                     Value="Stretch"/>
+
+                                                        <Setter Property="VerticalAlignment"
+                                                                        Value="Center"/>
+
+                                                        <Setter Property="FontWeight"
+                                                                        Value="Bold"/>
+                                                        <Setter Property="Foreground"
+                                                        Value="#E53935"/>
+                                                        <Setter Property="Padding"
+                    Value="0,0,10,0"/>
+
+
+                                                    </Style>
+
+                                                </DataGridTextColumn.ElementStyle>
+
+                                            </DataGridTextColumn>
+
+
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+
+                                </Border>
+
+                            </GroupBox>
+
+                        </DockPanel>
+
+                    </DataTemplate>
+
+                </TabControl.ContentTemplate>
+
+            </TabControl>
 
         </Grid>
 
