@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Markup;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace QL_HaiSan_HoangNhi.ViewModels
 {
@@ -19,6 +21,22 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        private string _tuKhoa;
+
+        public string TuKhoa
+        {
+            get => _tuKhoa;
+
+            set
+            {
+                _tuKhoa = value;
+
+                OnPropertyChanged();
+
+                LoadData();
+            }
+        }
+
         public List<string> DanhSachThanhToan
         {
             get;
@@ -115,6 +133,20 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             get;
             set;
         }
+        private decimal _tongTienTatCa;
+
+        public decimal TongTienTatCa
+        {
+            get => _tongTienTatCa;
+
+            set
+            {
+                _tongTienTatCa = value;
+
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Hoadon> DanhSachHoaDon
         {
             get;
@@ -155,18 +187,45 @@ namespace QL_HaiSan_HoangNhi.ViewModels
         }
         public void LoadData()
         {
-            var data = App.Db.Hoadons.Include("Khachhang")
-                .Where( x =>
+            var query = App.Db.Hoadons
+                .Include("Khachhang")
+                .Where(x =>
                     x.Trangthai == "DANGGIAO"
                     &&
-                    (x.TrangThaiThanhToan
-                        == "CHUATHANHTOAN" ||  x.TrangThaiThanhToan
-                        == "CONNO"))
+                    (
+                        x.TrangThaiThanhToan == "CHUATHANHTOAN"
+                        ||
+                        x.TrangThaiThanhToan == "CONNO"
+                    ));
+
+            // =====================================
+            // FILTER
+            // =====================================
+
+            if (!string.IsNullOrWhiteSpace(TuKhoa))
+            {
+                query = query.Where(x =>
+
+                    x.Khachhang.Tenkh.Contains(TuKhoa)
+
+                    ||
+
+                    x.Khachhang.Sdt.Contains(TuKhoa)
+
+                    ||
+
+                    x.Sohd.Contains(TuKhoa)
+                );
+            }
+
+            var data = query
                 .OrderByDescending(x => x.Ngaylap)
                 .ToList();
-
+            TongTienTatCa =
+    data.Sum(x => x.Tongtien ?? 0);
             DanhSachHoaDon =
                 new ObservableCollection<Hoadon>(data);
+
             OnPropertyChanged(nameof(DanhSachHoaDon));
         }
         public void LoadChiTietHoaDon()

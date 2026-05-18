@@ -19,6 +19,19 @@ public partial class Hoadon
     [StringLength(30)]
     [Unicode(false)]
     public string? Sohd { get; set; }
+    public string SoHDShort
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(Sohd))
+                return "";
+
+            if (Sohd.Length <= 4)
+                return Sohd;
+
+            return Sohd.Substring(Sohd.Length - 4);
+        }
+    }
 
     [Column("NGAYLAP", TypeName = "datetime")]
     public DateTime? Ngaylap { get; set; }

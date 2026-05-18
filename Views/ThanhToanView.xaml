@@ -52,6 +52,7 @@
                     <RowDefinition Height="Auto"/>
 
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
 
                 </Grid.RowDefinitions>
 
@@ -62,7 +63,9 @@
                 <TextBox Grid.Row="0"
                          Height="35"
                          Margin="10"
-                         materialDesign:HintAssist.Hint="Tìm theo SĐT / khách hàng"/>
+                        Text="{Binding TuKhoa,
+                        UpdateSourceTrigger=PropertyChanged}"
+         materialDesign:HintAssist.Hint="Tìm theo SĐT / khách hàng"/>
 
             
                 <!-- GRID HÓA ĐƠN -->
@@ -122,7 +125,7 @@
 
                         <DataGridTextColumn Header="HD"
                                             Width="70"
-                                            Binding="{Binding Id}"/>
+                                            Binding="{Binding SoHDShort}"/>
 
                     
                         <!-- KH -->
@@ -167,6 +170,32 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
+
+                <!-- ================================= -->
+                <!-- TỔNG TIỀN -->
+                <!-- ================================= -->
+
+                <Border Grid.Row="2"
+            Background="#EEEEEE"
+            Padding="10">
+
+                    <DockPanel>
+
+                        <TextBlock Text="TỔNG:"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       DockPanel.Dock="Left"/>
+
+                        <TextBlock Text="{Binding TongTienTatCa,
+                                      StringFormat={}{0:N0} đ}"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Foreground="Red"
+                       HorizontalAlignment="Right"/>
+
+                    </DockPanel>
+
+                </Border>
 
             </Grid>
 
