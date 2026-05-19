@@ -118,5 +118,12 @@ namespace QL_HaiSan_HoangNhi
          "ChartBar",
          new ThongKeShipperView());
         }
+        private void BtnThongKeDoanhThu_Click(object sender, RoutedEventArgs e)
+        {
+            OpenTab(
+         "Thống kê doanh thu",
+         "ChartBar",
+         new ThongKeDoanhThuView());
+        }
     }
 }

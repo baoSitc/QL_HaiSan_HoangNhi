@@ -209,36 +209,34 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 new RelayCommand(() => LoadData());
         }
 
-        //public void NopTien(Hoadon hd)
-        //{
-        //    if (hd == null)
-        //        return;
-
-        //    var confirm = MessageBox.Show(
-        //        $"Xác nhận shipper đã nộp tiền bill {hd.Sohd} ?",
-        //        "Xác nhận",
-        //        MessageBoxButton.YesNo,
-        //        MessageBoxImage.Question);
-
-        //    if (confirm != MessageBoxResult.Yes)
-        //        return;
-        //    hd.Thanhtoan = hd.Tongtien;
-        //    hd.Conlai = 0;
-        //    hd.DaNopTien = true;
-        //    hd.TrangThaiThanhToan = "DATHANHTOAN";
-        //    hd.Trangthai = "HOANTHANH";
-        //    hd.NgayNopTien = DateTime.Now;
-
-        //    App.Db.SaveChanges();
-
-        //    LoadData();
-        //}
+        
         public void NopTien()
         {
             if (SelectedHoaDon == null)
                 return;
-            MessageBox.Show("Chức năng này đang được phát triển, vui lòng chờ bản cập nhật tiếp theo!" + SelectedHoaDon.Sohd, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            var confirm = MessageBox.Show(
+                $"Xác nhận shipper đã nộp tiền bill {SelectedHoaDon.Sohd} ?",
+                "Xác nhận",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
 
+            if (confirm != MessageBoxResult.Yes)
+                return;
+            SelectedHoaDon.Thanhtoan = SelectedHoaDon.Tongtien;
+            SelectedHoaDon.Conlai = 0;
+            SelectedHoaDon.DaNopTien = true;
+            SelectedHoaDon.TrangThaiThanhToan = "DATHANHTOAN";
+            SelectedHoaDon.Trangthai = "HOANTHANH";
+            SelectedHoaDon.NgayNopTien = DateTime.Now;
+            App.Db.SaveChanges();
+            LoadData();
+            OnPropertyChanged(nameof(TongPhaiNop));
+            OnPropertyChanged(nameof(TongDaNop));
+            OnPropertyChanged(nameof(TongChuaNop));
+            OnPropertyChanged(nameof(TongTienShipper));
+            OnPropertyChanged(nameof(TongTienGuiXe));
+            OnPropertyChanged(nameof(DanhSachHoaDon));
+            OnPropertyChanged(nameof(DaNopTien));
 
         }
     }

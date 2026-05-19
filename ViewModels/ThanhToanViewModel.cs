@@ -296,7 +296,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 SelectedHoaDon
                 .TrangThaiThanhToan
                     = "CONNO";
-                SelectedHoaDon.Trangthai = "DANGGIAO";
+                SelectedHoaDon.Trangthai = "HOANTHANH";
                 SelectedHoaDon.DaNopTien = false;
 
             }
