@@ -1,0 +1,265 @@
+﻿<UserControl x:Class="QL_HaiSan_HoangNhi.Views.ThongKeShipperView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QL_HaiSan_HoangNhi.Views"
+             xmlns:vm="clr-namespace:QL_HaiSan_HoangNhi.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext >
+        <vm:ThongKeShipperViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="120"/>
+
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <!-- ================================= -->
+        <!-- FILTER -->
+        <!-- ================================= -->
+
+        <StackPanel Grid.Row="0"
+                Orientation="Horizontal"
+                Margin="10">
+
+            <DatePicker SelectedDate="{Binding TuNgay}"
+                    Margin="5"/>
+
+            <DatePicker SelectedDate="{Binding DenNgay}"
+                    Margin="5"/>
+
+            <ComboBox Width="200"
+                  Margin="5"
+                  ItemsSource="{Binding DanhSachShipper}"
+                  SelectedItem="{Binding SelectedShipper}"
+                  DisplayMemberPath="Tenshipper"/>
+
+            <Button Content="Lọc"
+                Width="100"
+                Margin="5"
+                Command="{Binding FillterCommand}"/>
+
+        </StackPanel>
+
+        <!-- ================================= -->
+        <!-- KPI -->
+        <!-- ================================= -->
+
+        <UniformGrid Grid.Row="1"
+                 Columns="5"
+                 Margin="5">
+
+            <Border Background="#E3F2FD"
+                Margin="5"
+                Padding="10">
+
+                <StackPanel>
+
+                    <TextBlock Text="TỔNG PHẢI NỘP" FontWeight="Bold"/>
+
+                    <TextBlock Text="{Binding TongPhaiNop,
+                                          StringFormat={}{0:N0}}"
+                           FontSize="24"
+                           FontWeight="Bold"/>
+
+                </StackPanel>
+
+            </Border>
+
+            <Border Background="#E8F5E9"
+                Margin="5"
+                Padding="10">
+
+                <StackPanel>
+
+                    <TextBlock Text="ĐÃ NỘP"/>
+
+                    <TextBlock Text="{Binding TongDaNop,
+                                          StringFormat={}{0:N0}}"
+                           FontSize="24"
+                           FontWeight="Bold"/>
+
+                </StackPanel>
+
+            </Border>
+
+            <Border Background="#FFEBEE"
+                Margin="5"
+                Padding="10">
+
+                <StackPanel>
+
+                    <TextBlock Text="CHƯA NỘP"/>
+
+                    <TextBlock Text="{Binding TongChuaNop,
+                                          StringFormat={}{0:N0}}"
+                           FontSize="24"
+                           FontWeight="Bold"/>
+
+                </StackPanel>
+
+            </Border>
+            <Border Background="#FFEBEE"
+     Margin="5"
+     Padding="10">
+
+                <StackPanel>
+
+                    <TextBlock Text="TIỀN SHIP"/>
+
+                    <TextBlock Text="{Binding TongTienShipper,
+                               StringFormat={}{0:N0}}"
+                FontSize="24"
+                FontWeight="Bold"/>
+
+                </StackPanel>
+
+            </Border>
+            <Border Background="#FFEBEE"
+Margin="5"
+Padding="10">
+
+                <StackPanel>
+
+                    <TextBlock Text="TIỀN GỬI XE"/>
+
+                    <TextBlock Text="{Binding TongTienGuiXe,
+                          StringFormat={}{0:N0}}"
+           FontSize="24"
+           FontWeight="Bold"/>
+
+                </StackPanel>
+
+            </Border>
+
+
+        </UniformGrid>
+
+        <!-- ================================= -->
+        <!-- GRID -->
+        <!-- ================================= -->
+
+        <DataGrid Grid.Row="2" x:Name="dgHoaDon"
+              Margin="10"
+              AutoGenerateColumns="False"
+              ItemsSource="{Binding DanhSachHoaDon}"
+                  SelectedItem="{Binding SelectedHoaDon}"
+                 >
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Ngày"
+                                Binding="{Binding Ngaylap,
+                                                  StringFormat=dd/MM/yyyy}"/>
+
+                <DataGridTextColumn Header="Bill"
+                                Binding="{Binding SoHDShort}"/>
+
+                <DataGridTextColumn Header="SĐT"
+                Binding="{Binding Khachhang.Sdt}"/>
+                
+                
+
+                <DataGridTemplateColumn Header="Tên - Địa chỉ giao hàng"
+                        Width="250">
+
+                    <DataGridTemplateColumn.CellTemplate>
+
+                        <DataTemplate>
+
+                            <StackPanel>
+
+                                <TextBlock Text="{Binding Khachhang.Tenkh}"
+                           FontWeight="Bold"/>
+
+                                <TextBlock Text="{Binding Diachigiao}"
+                           FontSize="11"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"/>
+
+                            </StackPanel>
+
+                        </DataTemplate>
+
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+                
+                
+
+                <DataGridTextColumn Header="Shipper"
+                                Binding="{Binding Shipper.Tenshipper}"/>
+
+                <DataGridTextColumn Header="Tổng"
+                                Binding="{Binding Tongtien,
+                                                  StringFormat={}{0:N0}}"/>
+
+                <DataGridTextColumn Header="Phải nộp"
+                                Binding="{Binding Conlai,
+                                                  StringFormat={}{0:N0}}"/>
+                
+                <DataGridTextColumn Header="Tiền Ship"
+                Binding="{Binding Phiship,
+                                  StringFormat={}{0:N0}}"/>
+                
+                <DataGridTextColumn Header="Tiền gửi xe"
+ Binding="{Binding Phiguixe,
+                   StringFormat={}{0:N0}}"/>
+
+                <DataGridTemplateColumn Header="Nộp tiền"
+                        Width="120">
+
+                    <DataGridTemplateColumn.CellTemplate>
+
+                        <DataTemplate>
+
+                            <Button Content="NỘP TIỀN"
+                    Command="{Binding DataContext.NopTienCommand,
+                                      ElementName=dgHoaDon}">
+
+                                <Button.Style>
+
+                                    <Style TargetType="Button">
+
+                                        <Setter Property="Visibility"
+                                Value="Visible"/>
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding DaNopTien}"
+                                         Value="True">
+
+                                                <Setter Property="Visibility"
+                                        Value="Collapsed"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </Button.Style>
+
+                            </Button>
+
+                        </DataTemplate>
+
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+</UserControl>

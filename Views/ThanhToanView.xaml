@@ -41,8 +41,9 @@
 
         <GroupBox Grid.Column="0"
                   Header="DANH SÁCH HÓA ĐƠN"
-                  FontWeight="Bold"
-                  FontSize="14"
+                  FontWeight="Normal"
+                  FontSize="12"
+                  FontFamily="Times New Roman"
                   Margin="0,0,10,0">
 
             <Grid>
@@ -142,14 +143,64 @@
                         <DataGridTextColumn Header="SĐT"
                                             Width="120"
                                             Binding="{Binding Khachhang.Sdt}"/>
+                        <DataGridTextColumn Header="Tổng Tiền"
+Width="140"
+Binding="{Binding Tongtien,
+                  StringFormat={}{0:N0}}">
 
 
-                        <!-- TỔNG -->
 
-                        <DataGridTextColumn Header="Tổng tiền"
-                                            Width="140"
-                                            Binding="{Binding Tongtien,
-                                                              StringFormat={}{0:N0}}">
+
+
+                            <DataGridTextColumn.ElementStyle>
+
+                                <Style TargetType="TextBlock">
+
+                                    <Setter Property="TextAlignment"
+                                            Value="Right"/>
+
+                                    <Setter Property="HorizontalAlignment"
+                                            Value="Right"/>
+
+                                </Style>
+
+                            </DataGridTextColumn.ElementStyle>
+
+                        </DataGridTextColumn>
+                        <!-- Đã Thanh Toán -->
+                        <DataGridTextColumn Header="Thanh Toán"
+Width="140"
+Binding="{Binding Thanhtoan,
+                  StringFormat={}{0:N0}}">
+
+
+                            <!-- TỔNG -->
+                            
+
+                            <DataGridTextColumn.ElementStyle>
+
+                                <Style TargetType="TextBlock">
+
+                                    <Setter Property="TextAlignment"
+                                            Value="Right"/>
+
+                                    <Setter Property="HorizontalAlignment"
+                                            Value="Right"/>
+
+                                </Style>
+
+                            </DataGridTextColumn.ElementStyle>
+
+                        </DataGridTextColumn>
+                        <!-- Còn Lại -->
+                        <DataGridTextColumn Header="Còn Lại"
+Width="140"
+Binding="{Binding Conlai,
+                  StringFormat={}{0:N0}}">
+
+
+                         
+
 
                             <DataGridTextColumn.ElementStyle>
 
@@ -172,28 +223,70 @@
                 </DataGrid>
 
                 <!-- ================================= -->
-                <!-- TỔNG TIỀN -->
+                <!-- DÒNG SUM -->
                 <!-- ================================= -->
 
                 <Border Grid.Row="2"
             Background="#EEEEEE"
-            Padding="10">
+            BorderBrush="#CCCCCC"
+            BorderThickness="1,0,0,0">
 
-                    <DockPanel>
+                    <Grid>
 
-                        <TextBlock Text="TỔNG:"
-                       FontSize="16"
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="160"/>
+
+                            <ColumnDefinition Width="140"/>
+
+                            <ColumnDefinition Width="140"/>
+
+                            <ColumnDefinition Width="140"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <!-- LABEL -->
+
+                        <TextBlock Grid.Column="0"
+                       Text="TỔNG CỘNG" FontSize="14" 
                        FontWeight="Bold"
-                       DockPanel.Dock="Left"/>
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
 
-                        <TextBlock Text="{Binding TongTienTatCa,
-                                      StringFormat={}{0:N0} đ}"
-                       FontSize="18"
-                       FontWeight="Bold"
+                        <!-- TỔNG TIỀN -->
+
+                        <TextBlock Grid.Column="1"
+                       Text="{Binding TongTienTatCa,
+                                      StringFormat={}{0:N0}}"
+                       FontWeight="Bold" FontSize="14" 
                        Foreground="Red"
-                       HorizontalAlignment="Right"/>
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,10,0"/>
 
-                    </DockPanel>
+                        <!-- ĐÃ TT -->
+
+                        <TextBlock Grid.Column="2"
+                       Text="{Binding SumDaThanhToan,
+                                      StringFormat={}{0:N0}}"
+                       FontWeight="Bold" FontSize="14" 
+                       Foreground="Green"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,10,0"/>
+
+                        <!-- CÒN LẠI -->
+
+                        <TextBlock Grid.Column="3"
+                       Text="{Binding SumConLai,
+                                      StringFormat={}{0:N0}}"
+                       FontWeight="Bold" FontSize="14" 
+                       Foreground="DarkOrange"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,10,0"/>
+
+                    </Grid>
 
                 </Border>
 
@@ -230,6 +323,7 @@
           Header="THÔNG TIN THANH TOÁN"
           FontWeight="Bold"
           FontSize="14"
+                      FontFamily="Times New Roman"
           Margin="0,0,0,10">
 
                 <Grid Margin="10">
@@ -385,6 +479,7 @@ Margin="5"
                       Header="CHI TIẾT HÓA ĐƠN"
                       FontWeight="Bold"
                       FontSize="14"
+                      FontFamily="Times New Roman"
                       Margin="0,0,0,10">
 
                 <DataGrid Margin="10"

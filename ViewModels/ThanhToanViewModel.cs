@@ -60,6 +60,24 @@ namespace QL_HaiSan_HoangNhi.ViewModels
                 OnPropertyChanged();
             }
         }
+        public List<string> DanhSachNopTien
+        {
+            get;
+        } = new()
+            {
+                "Đã nộp tiền",
+                "Chưa nộp tiền"
+            };
+        private string _daNopTien;
+        public string DanhNopTien
+                    {
+            get => _daNopTien;
+            set
+            {
+                _daNopTien = value;
+                OnPropertyChanged();
+            }
+        }
         private string _ghiChu;
 
         public string GhiChu
@@ -88,6 +106,17 @@ namespace QL_HaiSan_HoangNhi.ViewModels
 
                 TinhConLai();
             }
+        }
+        public decimal SumDaThanhToan
+        {
+            get;
+            set;
+        }
+
+        public decimal SumConLai
+        {
+            get;
+            set;
         }
 
         private decimal _conLai;
@@ -225,6 +254,13 @@ namespace QL_HaiSan_HoangNhi.ViewModels
     data.Sum(x => x.Tongtien ?? 0);
             DanhSachHoaDon =
                 new ObservableCollection<Hoadon>(data);
+            SumDaThanhToan =
+    data.Sum(x => x.Thanhtoan ?? 0);
+
+            SumConLai =
+                data.Sum(x => x.Conlai ?? 0);
+            OnPropertyChanged(nameof(SumDaThanhToan));
+            OnPropertyChanged(nameof(SumConLai));
 
             OnPropertyChanged(nameof(DanhSachHoaDon));
         }

@@ -111,5 +111,12 @@ namespace QL_HaiSan_HoangNhi
          "CashRegister",
          new ThanhToanView());
         }
+        private void BtnThongKeShipper_Click(object sender, RoutedEventArgs e)
+        {
+            OpenTab(
+         "Thống kê shipper",
+         "ChartBar",
+         new ThongKeShipperView());
+        }
     }
 }
