@@ -76,7 +76,8 @@ public partial class Hoadon
     public string? TrangThaiThanhToan { get; set; }
 
     [Column("DaNopTien")]   
-    public bool? DaNopTien { get; set; } 
+    public bool? DaNopTien { get; set; }
+     
 
     [Column("NgayNopTien")]    
     public DateTime? NgayNopTien { get; set; }

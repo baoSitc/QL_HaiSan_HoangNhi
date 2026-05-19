@@ -184,6 +184,7 @@ namespace QL_HaiSan_HoangNhi.ViewModels
             OnPropertyChanged(nameof(TongTienShipper));
             OnPropertyChanged(nameof(TongTienGuiXe));
             OnPropertyChanged(nameof(DanhSachHoaDon));
+            OnPropertyChanged(nameof(DaNopTien));
         }
         public bool? DaNopTien
         {

@@ -140,9 +140,36 @@
                         <!-- SĐT -->
 
 
-                        <DataGridTextColumn Header="SĐT"
-                                            Width="120"
-                                            Binding="{Binding Khachhang.Sdt}"/>
+                        <DataGridTemplateColumn Header="SDT-Khách hàng"
+          Width="250">
+
+                            <DataGridTemplateColumn.CellTemplate>
+
+                                <DataTemplate>
+
+                                    <StackPanel>
+
+                                        <TextBlock Text="{Binding Khachhang.Sdt}"
+             FontWeight="Bold"/>
+
+                                        <TextBlock Text="{Binding Khachhang.Tenkh}"
+             FontSize="11"
+             Foreground="Gray"
+             TextWrapping="Wrap"/>
+
+                                    </StackPanel>
+
+                                </DataTemplate>
+
+                            </DataGridTemplateColumn.CellTemplate>
+
+                        </DataGridTemplateColumn>
+
+
+
+
+
+
                         <DataGridTextColumn Header="Tổng Tiền"
 Width="140"
 Binding="{Binding Tongtien,

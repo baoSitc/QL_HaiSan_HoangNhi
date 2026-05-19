@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="QL_HaiSan_HoangNhi.Views.ThongKeShipperView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+             
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QL_HaiSan_HoangNhi.Views"
              xmlns:vm="clr-namespace:QL_HaiSan_HoangNhi.ViewModels"
@@ -10,7 +11,70 @@
     <UserControl.DataContext >
         <vm:ThongKeShipperViewModel/>
     </UserControl.DataContext>
-    
+    <UserControl.Resources>
+
+        <!-- BUTTON PRIMARY -->
+
+        <Style x:Key="PrimaryButtonStyle"
+           TargetType="Button">
+
+            <Setter Property="Foreground"
+                Value="White"/>
+
+            <Setter Property="Background"
+                Value="#1976D2"/>
+
+            <Setter Property="Padding"
+                Value="12,6"/>
+
+            <Setter Property="Margin"
+                Value="5"/>
+
+            <Setter Property="BorderThickness"
+                Value="0"/>
+
+            <Setter Property="FontWeight"
+                Value="Bold"/>
+
+            <Setter Property="Cursor"
+                Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border Background="{TemplateBinding Background}"
+                            CornerRadius="8">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+
+                        </Border>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsMouseOver"
+                     Value="True">
+
+                    <Setter Property="Background"
+                        Value="#1565C0"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+    </UserControl.Resources>
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -43,10 +107,10 @@
                   SelectedItem="{Binding SelectedShipper}"
                   DisplayMemberPath="Tenshipper"/>
 
-            <Button Content="Lọc"
-                Width="100"
-                Margin="5"
-                Command="{Binding FillterCommand}"/>
+            <Button Content="🔍 LỌC"
+        Width="100"
+        Style="{StaticResource PrimaryButtonStyle}"
+        Command="{Binding FillterCommand}"/>
 
         </StackPanel>
 
@@ -58,84 +122,124 @@
                  Columns="5"
                  Margin="5">
 
+            <!-- TỔNG PHẢI NỘP -->
+
             <Border Background="#E3F2FD"
-                Margin="5"
-                Padding="10">
+            CornerRadius="12"
+            Margin="5"
+            Padding="15">
 
                 <StackPanel>
 
-                    <TextBlock Text="TỔNG PHẢI NỘP" FontWeight="Bold"/>
+                    <TextBlock Text="TỔNG PHẢI NỘP"
+                       Foreground="#1565C0"
+                       FontWeight="Bold"
+                       FontSize="14"/>
 
                     <TextBlock Text="{Binding TongPhaiNop,
-                                          StringFormat={}{0:N0}}"
-                           FontSize="24"
-                           FontWeight="Bold"/>
+                                      StringFormat={}{0:N0}}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#0D47A1"
+                       Margin="0,10,0,0"/>
 
                 </StackPanel>
 
             </Border>
+
+            <!-- ĐÃ NỘP -->
 
             <Border Background="#E8F5E9"
-                Margin="5"
-                Padding="10">
+            CornerRadius="12"
+            Margin="5"
+            Padding="15">
 
                 <StackPanel>
 
-                    <TextBlock Text="ĐÃ NỘP"/>
+                    <TextBlock Text="ĐÃ NỘP"
+                       Foreground="#2E7D32"
+                       FontWeight="Bold"
+                       FontSize="14"/>
 
                     <TextBlock Text="{Binding TongDaNop,
-                                          StringFormat={}{0:N0}}"
-                           FontSize="24"
-                           FontWeight="Bold"/>
+                                      StringFormat={}{0:N0}}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#1B5E20"
+                       Margin="0,10,0,0"/>
 
                 </StackPanel>
 
             </Border>
 
+            <!-- CHƯA NỘP -->
+
             <Border Background="#FFEBEE"
-                Margin="5"
-                Padding="10">
+            CornerRadius="12"
+            Margin="5"
+            Padding="15">
 
                 <StackPanel>
 
-                    <TextBlock Text="CHƯA NỘP"/>
+                    <TextBlock Text="CHƯA NỘP"
+                       Foreground="#D32F2F"
+                       FontWeight="Bold"
+                       FontSize="14"/>
 
                     <TextBlock Text="{Binding TongChuaNop,
-                                          StringFormat={}{0:N0}}"
-                           FontSize="24"
-                           FontWeight="Bold"/>
+                                      StringFormat={}{0:N0}}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#B71C1C"
+                       Margin="0,10,0,0"/>
 
                 </StackPanel>
 
             </Border>
-            <Border Background="#FFEBEE"
-     Margin="5"
-     Padding="10">
+            <!-- TIỀN SHIP -->
+
+            <Border Background="#FFF3E0"
+            CornerRadius="12"
+            Margin="5"
+            Padding="15">
 
                 <StackPanel>
 
-                    <TextBlock Text="TIỀN SHIP"/>
+                    <TextBlock Text="TIỀN SHIP"
+                       Foreground="#EF6C00"
+                       FontWeight="Bold"
+                       FontSize="14"/>
 
                     <TextBlock Text="{Binding TongTienShipper,
-                               StringFormat={}{0:N0}}"
-                FontSize="24"
-                FontWeight="Bold"/>
+                                      StringFormat={}{0:N0}}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#E65100"
+                       Margin="0,10,0,0"/>
 
                 </StackPanel>
 
             </Border>
-            <Border Background="#FFEBEE"
-Margin="5"
-Padding="10">
+            <!-- TIỀN GỬI XE -->
+
+            <Border Background="#F3E5F5"
+            CornerRadius="12"
+            Margin="5"
+            Padding="15">
 
                 <StackPanel>
 
-                    <TextBlock Text="TIỀN GỬI XE"/>
+                    <TextBlock Text="TIỀN GỬI XE"
+                       Foreground="#7B1FA2"
+                       FontWeight="Bold"
+                       FontSize="14"/>
 
                     <TextBlock Text="{Binding TongTienGuiXe,
-                          StringFormat={}{0:N0}}"
-           FontSize="24"
-           FontWeight="Bold"/>
+                                      StringFormat={}{0:N0}}"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#4A148C"
+                       Margin="0,10,0,0"/>
 
                 </StackPanel>
 
@@ -148,12 +252,60 @@ Padding="10">
         <!-- GRID -->
         <!-- ================================= -->
 
-        <DataGrid Grid.Row="2" x:Name="dgHoaDon"
-              Margin="10"
-              AutoGenerateColumns="False"
-              ItemsSource="{Binding DanhSachHoaDon}"
-                  SelectedItem="{Binding SelectedHoaDon}"
-                 >
+        <DataGrid Grid.Row="2"
+          x:Name="dgHoaDon"
+          Margin="10"
+          AutoGenerateColumns="False"
+          ItemsSource="{Binding DanhSachHoaDon}"
+          SelectedItem="{Binding SelectedHoaDon}"
+
+          HeadersVisibility="Column"
+          GridLinesVisibility="Horizontal"
+          RowBackground="White"
+          AlternatingRowBackground="#F5F5F5"
+          AlternationCount="2"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          IsReadOnly="True">
+            <DataGrid.ColumnHeaderStyle>
+
+                <Style TargetType="DataGridColumnHeader">
+
+                    <Setter Property="Background"
+                Value="#1976D2"/>
+
+                    <Setter Property="Foreground"
+                Value="White"/>
+
+                    <Setter Property="FontWeight"
+                Value="Bold"/>
+
+                    <Setter Property="Height"
+                Value="40"/>
+
+                </Style>
+
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.RowStyle>
+
+                <Style TargetType="DataGridRow">
+
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding DaNopTien}"
+                         Value="False">
+
+                            <Setter Property="Background"
+                        Value="#FFF3E0"/>
+
+                        </DataTrigger>
+
+                    </Style.Triggers>
+
+                </Style>
+
+            </DataGrid.RowStyle>
 
             <DataGrid.Columns>
 
@@ -215,31 +367,33 @@ Padding="10">
  Binding="{Binding Phiguixe,
                    StringFormat={}{0:N0}}"/>
 
-                <DataGridTemplateColumn Header="Nộp tiền"
-                        Width="120">
+
+                <DataGridTemplateColumn Header=""
+                        Width="150" >
 
                     <DataGridTemplateColumn.CellTemplate>
 
                         <DataTemplate>
 
                             <Button Content="NỘP TIỀN"
-                    Command="{Binding DataContext.NopTienCommand,
-                                      ElementName=dgHoaDon}">
+        Command="{Binding DataContext.NopTienCommand,
+                          ElementName=dgHoaDon}">
 
                                 <Button.Style>
 
-                                    <Style TargetType="Button">
+                                    <Style TargetType="Button"
+               BasedOn="{StaticResource PrimaryButtonStyle}">
 
                                         <Setter Property="Visibility"
-                                Value="Visible"/>
+                    Value="Visible"/>
 
                                         <Style.Triggers>
 
                                             <DataTrigger Binding="{Binding DaNopTien}"
-                                         Value="True">
+                             Value="true">
 
                                                 <Setter Property="Visibility"
-                                        Value="Collapsed"/>
+                            Value="Collapsed"/>
 
                                             </DataTrigger>
 
